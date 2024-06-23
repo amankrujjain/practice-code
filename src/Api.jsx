@@ -1,35 +1,40 @@
+// https://jsonplaceholder.typicode.com/posts/1
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const Api = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState('');
 
-    useEffect(()=>{
-        const fetch = async ()=>{
-            const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1');
-            try {
-                console.log(response)
-                setData(response.data);
-            } catch (error) {
-                console.log(error);
-            };
-        };
-        fetch()
-    },[])
-  return (
-    <div>
-        {
-            data && (
-                <div>
-                    <p> {data.id}</p>
-                <p> {data.title}</p>
-                <p> {data.body}</p>
-                    </div>
+    useEffect(() => {
 
-            )
+       let fetchData = async() =>{
+        try {
+            let res = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+            if(res.data){
+                setData(res.data)
+            }else{
+                alert("This is error")
+            }
+        } catch (error) {
+            console.log(error)
         }
-    </div>
-  )
-}
+       };
+       fetchData()
+    }, []);
+
+    return (
+        <div>
+            {
+                data && (
+                   <>
+                    <h1>{data.id}</h1>
+                    <h4>{data.title}</h4>
+                    <p>{data.body}</p>
+                   </>
+                )
+            }
+        </div>
+    )
+};
 
 export default Api
